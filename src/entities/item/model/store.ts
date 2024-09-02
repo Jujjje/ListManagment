@@ -1,14 +1,21 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 export interface IItem {
   name: string;
   seller: string;
-  integration: string;
+  integration: "All" | "Reels" | "Stories";
   id: number;
 }
-
 export const useItemStore = defineStore("item", () => {
   const item = ref<IItem[]>([]);
+  const integrationFilter = ref<"All" | "Reels" | "Stories">("All");
+  const alphabetSorting = ref<"Id" | "ABC" | "XYZ">("Id");
+
+  const filteredItems = computed(() =>
+    integrationFilter.value == "All"
+      ? item.value
+      : item.value.filter((i) => i.integration === integrationFilter.value)
+  );
 
   const localStorageItems = localStorage.getItem("items");
   if (localStorageItems) item.value = JSON.parse(localStorageItems)._value;
@@ -22,10 +29,22 @@ export const useItemStore = defineStore("item", () => {
   }
 
   function deleteItem(id: number) {
-    console.log(id);
     let res = item.value.filter((i) => i.id != id);
     item.value = res;
   }
+
+  function sortAlphabet() {
+    item.value.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  function sortReverseAlphabet() {
+    item.value.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  function sortByDefault() {
+    item.value.sort((a, b) => a.id - b.id);
+  }
+
   watch(
     () => item,
     (state) => {
@@ -33,5 +52,16 @@ export const useItemStore = defineStore("item", () => {
     },
     { deep: true }
   );
-  return { item, setNewItem, editItem, deleteItem };
+  return {
+    item,
+    integrationFilter,
+    alphabetSorting,
+    filteredItems,
+    setNewItem,
+    editItem,
+    deleteItem,
+    sortAlphabet,
+    sortReverseAlphabet,
+    sortByDefault,
+  };
 });

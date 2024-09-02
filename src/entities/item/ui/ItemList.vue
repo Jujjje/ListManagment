@@ -4,7 +4,6 @@ import { IItem, useItemStore } from "../model/store";
 
 interface IProps {
   item: IItem;
-  n: number;
 }
 
 const props = defineProps<IProps>();
@@ -12,6 +11,7 @@ const props = defineProps<IProps>();
 const name = ref(props.item.name);
 const seller = ref(props.item.seller);
 const integration = ref(props.item.integration);
+
 const isEdit = ref(false);
 
 const store = useItemStore();
@@ -20,17 +20,17 @@ const { editItem, deleteItem } = store;
 function onClickPencil() {
   isEdit.value = !isEdit.value;
   if (isEdit.value === false)
-    editItem(props.n, {
+    editItem(props.item.id, {
       name: name.value,
       seller: seller.value,
       integration: integration.value,
-      id: props.n,
+      id: props.item.id,
     });
 }
 </script>
 <template>
   <div class="w-[150px] flex flex-col items-center">
-    <p>{{ props.item.id }}</p>
+    <p>{{ item.id }}</p>
     <img
       width="96"
       height="96"

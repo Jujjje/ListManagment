@@ -5,10 +5,9 @@ import { ref } from "vue";
 
 const name = ref("");
 const seller = ref("");
-const integration = ref("");
+const integration = ref<"All" | "Reels" | "Stories">("Reels");
 
 const store = useItemStore();
-const { item } = storeToRefs(store);
 const { setNewItem } = store;
 
 function onClickAddButton() {
@@ -16,7 +15,7 @@ function onClickAddButton() {
     name: name.value,
     seller: seller.value,
     integration: integration.value,
-    id: item.value.length,
+    id: Date.now(),
   };
 
   setNewItem(newItem);
@@ -31,7 +30,7 @@ function onClickAddButton() {
         <input
           v-model="name"
           type="text"
-          class="border-[1px] p-1 rounded-[8px] mt-1"
+          class="border-[1px] p-1 rounded-[8px] mt-1 w-[240px]"
           placeholder="Название товара"
         />
       </div>
@@ -40,18 +39,19 @@ function onClickAddButton() {
         <input
           type="text"
           v-model="seller"
-          class="border-[1px] p-1 rounded-[8px] mt-1"
+          class="border-[1px] p-1 rounded-[8px] mt-1 w-[240px]"
           placeholder="Селлер"
         />
       </div>
       <div class="">
         <p>Способ интеграции:</p>
-        <input
+        <select
           v-model="integration"
-          type="text"
-          class="border-[1px] p-1 rounded-[8px] mt-1"
-          placeholder="Способ интеграции"
-        />
+          class="border-[1px] p-1 rounded-[8px] mt-1 w-[240px]"
+        >
+          <option>Reels</option>
+          <option>Stories</option>
+        </select>
       </div>
     </div>
     <div class="flex justify-between mt-6">
