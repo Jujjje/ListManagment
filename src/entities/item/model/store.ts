@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
-interface IItem {
+export interface IItem {
   name: string;
   seller: string;
   integration: string;
+  id: number;
 }
 
 export const useItemStore = defineStore("item", () => {
@@ -14,9 +15,17 @@ export const useItemStore = defineStore("item", () => {
 
   function setNewItem(newItem: IItem) {
     item.value.push(newItem);
-    console.log(item.value);
   }
 
+  function editItem(n: number, newItem: IItem) {
+    item.value[n] = newItem;
+  }
+
+  function deleteItem(id: number) {
+    console.log(id);
+    let res = item.value.filter((i) => i.id != id);
+    item.value = res;
+  }
   watch(
     () => item,
     (state) => {
@@ -24,5 +33,5 @@ export const useItemStore = defineStore("item", () => {
     },
     { deep: true }
   );
-  return { item, setNewItem };
+  return { item, setNewItem, editItem, deleteItem };
 });

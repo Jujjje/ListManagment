@@ -6,9 +6,9 @@ const store = useItemStore();
 const { item } = storeToRefs(store);
 </script>
 <template>
-  <div class="w-full bg-white h-[600px]">
-    <div class="flex justify-between flex-wrap">
-      <ItemList v-for="(i, n) in item" :item="i" :n="n" />
+  <div class="w-full bg-white rounded-[15px]">
+    <div class="flex flex-wrap justify-between gap-x-4 gap-y-10 mt-10">
+      <ItemList v-for="(i, n) in item" :item="i" :n="n++" />
     </div>
   </div>
 </template>

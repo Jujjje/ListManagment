@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useItemStore } from "src/entities/item";
 import { ref } from "vue";
 
@@ -7,6 +8,7 @@ const seller = ref("");
 const integration = ref("");
 
 const store = useItemStore();
+const { item } = storeToRefs(store);
 const { setNewItem } = store;
 
 function onClickAddButton() {
@@ -14,6 +16,7 @@ function onClickAddButton() {
     name: name.value,
     seller: seller.value,
     integration: integration.value,
+    id: item.value.length,
   };
 
   setNewItem(newItem);
