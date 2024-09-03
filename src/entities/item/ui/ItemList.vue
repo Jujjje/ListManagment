@@ -30,7 +30,6 @@ function onClickPencil() {
 </script>
 <template>
   <div class="w-[150px] flex flex-col items-center">
-    <p>{{ item.id }}</p>
     <img
       width="96"
       height="96"
