@@ -10,6 +10,10 @@ export const useItemStore = defineStore("item", () => {
   const item = ref<IItem[]>([]);
   const integrationFilter = ref<"All" | "Reels" | "Stories">("All");
   const alphabetSorting = ref<"Id" | "ABC" | "XYZ">("Id");
+  const pagination = ref<number>(1);
+
+  const localStorageItems = localStorage.getItem("items");
+  if (localStorageItems) item.value = JSON.parse(localStorageItems)._value;
 
   const filteredItems = computed(() =>
     integrationFilter.value == "All"
@@ -17,9 +21,12 @@ export const useItemStore = defineStore("item", () => {
       : item.value.filter((i) => i.integration === integrationFilter.value)
   );
 
-  const localStorageItems = localStorage.getItem("items");
-  if (localStorageItems) item.value = JSON.parse(localStorageItems)._value;
-
+  const paginatedItems = computed(() => {
+    return filteredItems.value.slice(
+      (pagination.value - 1) * 20,
+      (pagination.value - 1) * 20 + 20
+    );
+  });
   function setNewItem(newItem: IItem) {
     item.value.push(newItem);
   }
@@ -57,6 +64,8 @@ export const useItemStore = defineStore("item", () => {
     integrationFilter,
     alphabetSorting,
     filteredItems,
+    pagination,
+    paginatedItems,
     setNewItem,
     editItem,
     deleteItem,

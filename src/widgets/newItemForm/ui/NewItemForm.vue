@@ -10,6 +10,9 @@ const integration = ref<"All" | "Reels" | "Stories">("Reels");
 const store = useItemStore();
 const { setNewItem } = store;
 
+function onFormNotFilled() {
+  alert("Заполните все поля");
+}
 function onClickAddButton() {
   const newItem = {
     name: name.value,
@@ -17,12 +20,11 @@ function onClickAddButton() {
     integration: integration.value,
     id: Date.now(),
   };
-
-  setNewItem(newItem);
+  name.value && seller.value ? setNewItem(newItem) : onFormNotFilled();
 }
 </script>
 <template>
-  <div class="bg-white rounded-3xl w-[600px] p-5 text-xl">
+  <div class="bg-white rounded-3xl p-5 text-xl max-sm:p-0">
     <p class="text-2xl text-center mb-3">Введите параметры нового предмета</p>
     <div class="flex flex-col gap-y-4">
       <div class="">
@@ -56,13 +58,15 @@ function onClickAddButton() {
     </div>
     <div class="flex justify-between mt-6">
       <button
-        class="bg-[#202020] text-white py-3 px-4 rounded-[15px]"
+        class="bg-[#202020] text-white p-2 rounded-[15px] max-sm:p-2"
         @click="onClickAddButton()"
       >
         Добавить
       </button>
       <RouterLink to="/list">
-        <button class="bg-[#202020] text-white py-3 px-4 rounded-[15px]">
+        <button
+          class="bg-[#202020] text-white py-3 px-4 rounded-[15px] max-sm:p-2"
+        >
           Список товаров
         </button></RouterLink
       >
