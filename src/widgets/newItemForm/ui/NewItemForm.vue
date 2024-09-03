@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useItemStore } from "src/entities/item";
 import { ref } from "vue";
 
