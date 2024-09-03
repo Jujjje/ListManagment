@@ -10,7 +10,6 @@ const props = defineProps<IProps>();
 
 const name = ref(props.item.name);
 const seller = ref(props.item.seller);
-const integration = ref(props.item.integration);
 
 const isEdit = ref(false);
 
@@ -23,7 +22,7 @@ function onClickPencil() {
     editItem(props.item.id, {
       name: name.value,
       seller: seller.value,
-      integration: integration.value,
+      integration: props.item.integration,
       id: props.item.id,
     });
 }
@@ -59,13 +58,7 @@ function onClickPencil() {
       </div>
       <div class="flex">
         <p>Интеграция:&nbsp;</p>
-        <input
-          type="text"
-          v-model="integration"
-          v-if="isEdit"
-          class="outline outline-1 rounded-sm w-full"
-        />
-        <p v-else class="truncate">{{ integration }}</p>
+        <p class="truncate">{{ props.item.integration }}</p>
       </div>
     </div>
     <div class="flex w-full justify-between py-4">
